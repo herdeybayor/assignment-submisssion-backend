@@ -6,7 +6,9 @@ export const JWT_SECRET = process.env.JWT_SECRET || "000-12345-000";
 export const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/my-node-typescript-express-starter";
 export const ROLE = {
     ADMIN: ["admin"],
-    USER: ["user", "admin"]
+    LECTURER: ["lecturer", "admin"],
+    STUDENT: ["student", "admin"],
+    USER: ["student", "lecturer", "admin"]
 };
 export const URL = {
     CLIENT_URL: process.env.CLIENT_URL || "http://localhost:3000"

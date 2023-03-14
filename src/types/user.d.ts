@@ -3,5 +3,5 @@ interface UserDataInput {
     email?: string;
     image?: string;
     password?: string;
-    role?: "user" | "admin";
+    role?: "student" | "lecturer" | "admin";
 }

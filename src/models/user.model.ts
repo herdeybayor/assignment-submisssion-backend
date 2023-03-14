@@ -8,7 +8,7 @@ export interface IUser extends mongoose.Document {
     email: string;
     password: string;
     image: string;
-    role: "user" | "admin";
+    role: "student" | "lecturer" | "admin";
     isVerified: boolean;
     isActive: boolean;
     createdAt: Date;
@@ -40,8 +40,14 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            enum: ["user", "admin"],
-            default: "user"
+            enum: ["student", "lecturer", "admin"],
+            default: "student"
+        },
+        level: {
+            type: String,
+            required: true,
+            trim: true,
+            enum: ["100", "200", "300", "400"]
         },
         isActive: {
             type: Boolean,
