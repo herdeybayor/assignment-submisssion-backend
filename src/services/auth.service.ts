@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import JWT from "jsonwebtoken";
 
 import User from "./../models/user.model";
+import Department from "./../models/department.model";
 import Token from "./../models/token.model";
 import MailService from "./mail.service";
 import CustomError from "../utils/custom-error";
@@ -14,11 +15,16 @@ class AuthService {
         if (!data.name) throw new CustomError("name is required");
         if (!data.email) throw new CustomError("email is required");
         if (!data.password) throw new CustomError("password is required");
+        if (!data.level) throw new CustomError("level is required");
+        if (!data.departmentId) throw new CustomError("department is required");
 
         let user = await User.findOne({ email: data.email });
         if (user) throw new CustomError("email already exists");
 
-        user = await new User(data).save();
+        const department = await Department.findOne({ _id: data.departmentId });
+        if (!department) throw new CustomError("department does not exist");
+
+        user = await new User({ ...data, department: department._id }).save();
 
         // Request email verification
         await this.requestEmailVerification(user.email);

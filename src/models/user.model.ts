@@ -9,6 +9,8 @@ export interface IUser extends mongoose.Document {
     password: string;
     image: string;
     role: "student" | "lecturer" | "admin";
+    level: string;
+    department: mongoose.Schema.Types.ObjectId;
     isVerified: boolean;
     isActive: boolean;
     createdAt: Date;
@@ -48,6 +50,11 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
             required: true,
             trim: true,
             enum: ["100", "200", "300", "400"]
+        },
+        department: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: "department"
         },
         isActive: {
             type: Boolean,

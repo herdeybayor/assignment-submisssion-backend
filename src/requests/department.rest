@@ -1,0 +1,12 @@
+### Create a new department
+POST http://localhost:4000/departments HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTA0YzU4YzJiOTYzZmU3ZjdkYzJmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3ODc4OTk0MSwiZXhwIjoxNjc4NzkzNTQxfQ.gw_bOspCXaeANvXMiUVeR8EYisgJOnFFIBAWajxTr2w
+
+{
+    "name": "Mathematics"
+}
+
+### Get all departments
+GET http://localhost:4000/departments HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTA0YzU4YzJiOTYzZmU3ZjdkYzJmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3ODc4OTk0MSwiZXhwIjoxNjc4NzkzNTQxfQ.gw_bOspCXaeANvXMiUVeR8EYisgJOnFFIBAWajxTr2w

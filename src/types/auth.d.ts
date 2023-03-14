@@ -2,6 +2,8 @@ interface RegisterInput {
     name: string;
     email: string;
     password: string;
+    level: string;
+    departmentId: string;
     registerAs?: "student" | "lecturer";
 }
 

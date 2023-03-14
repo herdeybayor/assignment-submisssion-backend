@@ -1,3 +1,4 @@
+### Register
 POST http://localhost:4000/auth/register HTTP/1.1
 content-type: application/json
 
@@ -5,5 +6,20 @@ content-type: application/json
     "name": "John Doe",
     "email": "herdeybayor4real@gmail.com",
     "password": "password",
-    "level": "100"
+    "level": "100",
+    "departmentId": "64104e66c2b963fe7f7dc303"
 }
+
+### Login
+POST http://localhost:4000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "submission@gmail.com",
+    "password": "password"
+}
+
+### Get all users
+GET http://localhost:4000/users HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTA0YzU4YzJiOTYzZmU3ZjdkYzJmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3ODc4OTk0MSwiZXhwIjoxNjc4NzkzNTQxfQ.gw_bOspCXaeANvXMiUVeR8EYisgJOnFFIBAWajxTr2w
