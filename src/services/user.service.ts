@@ -3,6 +3,7 @@ import CloudinaryUtil from "../utils/cloudinary";
 import CustomError from "./../utils/custom-error";
 
 import type { UploadApiResponse } from "cloudinary";
+import type { UserDataInput } from "../types/user";
 
 class UserService {
     async create(data: UserDataInput) {
