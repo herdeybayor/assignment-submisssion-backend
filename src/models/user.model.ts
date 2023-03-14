@@ -81,4 +81,9 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
+userSchema.pre(/^save|^find/, function (next) {
+    this.populate("department");
+    next();
+});
+
 export default mongoose.model<IUser>("user", userSchema);
