@@ -4,10 +4,10 @@ content-type: application/json
 
 {
     "name": "John Doe",
-    "email": "herdeybayor4real@gmail.com",
+    "email": "herdeybayor4real+3@gmail.com",
     "password": "password",
-    "level": "100",
-    "departmentId": "64104e66c2b963fe7f7dc303"
+    "level": "300",
+    "departmentId": "641057990e5e6e04a904facb"
 }
 
 ### Login
