@@ -2,13 +2,15 @@ interface RegisterInput {
     name: string;
     email: string;
     password: string;
+    matric: string;
     level: string;
     departmentId: string;
     registerAs?: "student" | "lecturer";
 }
 
 interface LoginInput {
-    email: string;
+    matric?: string;
+    email?: string;
     password: string;
 }
 

@@ -15,6 +15,7 @@ class AuthService {
         if (!data.name) throw new CustomError("name is required");
         if (!data.email) throw new CustomError("email is required");
         if (!data.password) throw new CustomError("password is required");
+        if (!data.matric) throw new CustomError("matric is required");
         if (!data.level) throw new CustomError("level is required");
         if (!data.departmentId) throw new CustomError("department is required");
 
@@ -35,12 +36,17 @@ class AuthService {
     }
 
     async login(data: LoginInput) {
-        if (!data.email) throw new CustomError("email is required");
+        if (!data.email && !data.matric) throw new CustomError("email or matric is required");
         if (!data.password) throw new CustomError("password is required");
 
-        // Check if user exist
-        const user = await User.findOne({ email: data.email });
-        if (!user) throw new CustomError("incorrect email or password");
+        let user;
+        if (data.email) {
+            user = await User.findOne({ email: data.email });
+        } else {
+            user = await User.findOne({ matric: data.matric });
+        }
+
+        if (!user) throw new CustomError("incorrect email/matic or password");
 
         // Check if user password is correct
         const isCorrect = await bcrypt.compare(data.password, user.password);

@@ -9,6 +9,7 @@ export interface IUser extends mongoose.Document {
     password: string;
     image: string;
     role: "student" | "lecturer" | "admin";
+    matric: number;
     level: string;
     department: mongoose.Schema.Types.ObjectId;
     isVerified: boolean;
@@ -44,6 +45,11 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
             trim: true,
             enum: ["student", "lecturer", "admin"],
             default: "student"
+        },
+        matric: {
+            type: Number,
+            required: true,
+            unique: true
         },
         level: {
             type: String,
