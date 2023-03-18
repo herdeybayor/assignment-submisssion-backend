@@ -49,19 +49,15 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
             default: Role.student
         },
         matric: {
-            type: Number,
-            required: true,
-            unique: true
+            type: Number
         },
         level: {
             type: String,
-            required: true,
             trim: true,
             enum: Level
         },
         department: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
             ref: "department"
         },
         isActive: {

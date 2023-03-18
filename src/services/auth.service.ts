@@ -9,15 +9,23 @@ import Token from "./../models/token.model";
 import MailService from "./mail.service";
 import CustomError from "../utils/custom-error";
 import { JWT_SECRET, BCRYPT_SALT, URL } from "./../config";
+import { Role } from "../types/user";
 
 class AuthService {
     async register(data: RegisterInput) {
         if (!data.name) throw new CustomError("name is required");
         if (!data.email) throw new CustomError("email is required");
         if (!data.password) throw new CustomError("password is required");
-        if (!data.matric) throw new CustomError("matric is required");
-        if (!data.level) throw new CustomError("level is required");
-        if (!data.departmentId) throw new CustomError("department is required");
+        if (!data.registerAs) throw new CustomError("registerAs is required");
+
+        if (data.registerAs === "student") {
+            if (!data.matric) throw new CustomError("matric is required");
+            if (!data.level) throw new CustomError("level is required");
+            if (!data.departmentId) throw new CustomError("department is required");
+
+            const userWithMatric = await User.findOne({ matric: data.matric });
+            if (userWithMatric) throw new CustomError("matric already exists");
+        }
 
         let user = await User.findOne({ email: data.email });
         if (user) throw new CustomError("email already exists");
@@ -25,7 +33,24 @@ class AuthService {
         const department = await Department.findOne({ _id: data.departmentId });
         if (!department) throw new CustomError("department does not exist");
 
-        user = await new User({ ...data, department: department._id }).save();
+        if (data.registerAs === "student") {
+            user = await new User({
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                role: Role.student,
+                matric: data.matric,
+                level: data.level,
+                department: data.departmentId
+            }).save();
+        } else {
+            user = await new User({
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                role: Role.lecturer
+            }).save();
+        }
 
         // Request email verification
         await this.requestEmailVerification(user.email);

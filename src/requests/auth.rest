@@ -4,11 +4,12 @@ content-type: application/json
 
 {
     "name": "Sherifdeen Adebayo",
-    "email": "herdeybayor4real+4@gmail.com",
+    "email": "herdeybayor4real@gmail.com",
     "password": "password",
-    "level": "300",
+    "level": "100",
     "departmentId": "641057990e5e6e04a904facb",
-    "matric": "210551003"
+    "matric": "210551003",
+    "registerAs": "student"
 }
 
 ### Login
@@ -23,4 +24,4 @@ Content-Type: application/json
 ### Get all users
 GET http://localhost:4000/users HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTA0YzU4YzJiOTYzZmU3ZjdkYzJmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3ODc5NDU2MywiZXhwIjoxNjc4Nzk4MTYzfQ.M9OqAj3vExxt5rzRP1L6so5AQzXKhySqmvHnTOthm34
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTBlMzMxMTY3YjA0ZjA3MmQ5ZGQyMyIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNjc4ODM1ODYxLCJleHAiOjE2Nzg4Mzk0NjF9.wWQ_vwg-FxSTJZfgJh-4qTk0xixAlncRVD5m3vHgRvI
