@@ -74,15 +74,6 @@ class UserService {
         return user;
     }
 
-    async updateMe(userId: string, data: UserDataInput) {
-        delete data.role, data.email, data.password;
-
-        if (data.image) {
-            data.image = await this.uploadImage(data.image);
-            await this.deleteUserImage(userId); // Delete the old image
-        }
-    }
-
     async delete(userId: string) {
         await this.deleteUserImage(userId);
 
