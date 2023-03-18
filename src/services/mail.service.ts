@@ -21,14 +21,11 @@ class MailService {
         // Define nodemailer transporter
         const transporter = nodemailer.createTransport({
             host: MAILER.HOST,
-            port: 25,
+            port: MAILER.PORT,
             secure: MAILER.SECURE,
             auth: {
                 user: MAILER.USER,
                 pass: MAILER.PASSWORD
-            },
-            tls: {
-                rejectUnauthorized: false
             }
         } as any);
 

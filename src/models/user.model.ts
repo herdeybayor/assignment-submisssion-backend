@@ -3,12 +3,14 @@ import mongoose from "mongoose";
 
 import { BCRYPT_SALT } from "./../config";
 
+import { Level, Role } from "../types/user";
+
 export interface IUser extends mongoose.Document {
     name: string;
     email: string;
     password: string;
     image: string;
-    role: "student" | "lecturer" | "admin";
+    role: Role;
     matric: number;
     level: string;
     department: mongoose.Schema.Types.ObjectId;
@@ -43,23 +45,19 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            enum: ["student", "lecturer", "admin"],
-            default: "student"
+            enum: Role,
+            default: Role.student
         },
         matric: {
-            type: Number,
-            required: true,
-            unique: true
+            type: Number
         },
         level: {
             type: String,
-            required: true,
             trim: true,
-            enum: ["100", "200", "300", "400"]
+            enum: Level
         },
         department: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
             ref: "department"
         },
         isActive: {
