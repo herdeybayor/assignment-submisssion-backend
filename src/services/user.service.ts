@@ -3,6 +3,7 @@ import CloudinaryUtil from "../utils/cloudinary";
 import CustomError from "./../utils/custom-error";
 
 import type { UploadApiResponse } from "cloudinary";
+import type { UserDataInput } from "../types/user";
 
 class UserService {
     async create(data: UserDataInput) {
@@ -71,6 +72,15 @@ class UserService {
         if (!user) throw new CustomError("user does not exist");
 
         return user;
+    }
+
+    async updateMe(userId: string, data: UserDataInput) {
+        delete data.role, data.email, data.password;
+
+        if (data.image) {
+            data.image = await this.uploadImage(data.image);
+            await this.deleteUserImage(userId); // Delete the old image
+        }
     }
 
     async delete(userId: string) {

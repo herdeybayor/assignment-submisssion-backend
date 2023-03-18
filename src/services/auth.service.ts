@@ -9,22 +9,48 @@ import Token from "./../models/token.model";
 import MailService from "./mail.service";
 import CustomError from "../utils/custom-error";
 import { JWT_SECRET, BCRYPT_SALT, URL } from "./../config";
+import { Role } from "../types/user";
 
 class AuthService {
     async register(data: RegisterInput) {
         if (!data.name) throw new CustomError("name is required");
         if (!data.email) throw new CustomError("email is required");
         if (!data.password) throw new CustomError("password is required");
-        if (!data.level) throw new CustomError("level is required");
-        if (!data.departmentId) throw new CustomError("department is required");
+        if (!data.registerAs) throw new CustomError("registerAs is required");
+
+        if (data.registerAs === "student") {
+            if (!data.matric) throw new CustomError("matric is required");
+            if (!data.level) throw new CustomError("level is required");
+            if (!data.departmentId) throw new CustomError("department is required");
+
+            const userWithMatric = await User.findOne({ matric: data.matric });
+            if (userWithMatric) throw new CustomError("matric already exists");
+
+            const department = await Department.findOne({ _id: data.departmentId });
+            if (!department) throw new CustomError("department does not exist");
+        }
 
         let user = await User.findOne({ email: data.email });
         if (user) throw new CustomError("email already exists");
 
-        const department = await Department.findOne({ _id: data.departmentId });
-        if (!department) throw new CustomError("department does not exist");
-
-        user = await new User({ ...data, department: department._id }).save();
+        if (data.registerAs === "student") {
+            user = await new User({
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                role: Role.student,
+                matric: data.matric,
+                level: data.level,
+                department: data.departmentId
+            }).save();
+        } else {
+            user = await new User({
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                role: Role.lecturer
+            }).save();
+        }
 
         // Request email verification
         await this.requestEmailVerification(user.email);
@@ -35,12 +61,17 @@ class AuthService {
     }
 
     async login(data: LoginInput) {
-        if (!data.email) throw new CustomError("email is required");
+        if (!data.email && !data.matric) throw new CustomError("email or matric is required");
         if (!data.password) throw new CustomError("password is required");
 
-        // Check if user exist
-        const user = await User.findOne({ email: data.email });
-        if (!user) throw new CustomError("incorrect email or password");
+        let user;
+        if (data.email) {
+            user = await User.findOne({ email: data.email });
+        } else {
+            user = await User.findOne({ matric: data.matric });
+        }
+
+        if (!user) throw new CustomError("incorrect email/matic or password");
 
         // Check if user password is correct
         const isCorrect = await bcrypt.compare(data.password, user.password);
@@ -135,7 +166,6 @@ class AuthService {
         const { userId, verifyToken } = data;
 
         const user = await User.findOne({ _id: userId });
-        console.log(user);
         if (!user) throw new CustomError("User does not exist");
         if (user.isVerified) throw new CustomError("email is already verified");
 
