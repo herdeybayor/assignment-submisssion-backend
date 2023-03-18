@@ -20,9 +20,7 @@ class MailService {
 
         // Define nodemailer transporter
         const transporter = nodemailer.createTransport({
-            host: MAILER.HOST,
-            port: MAILER.PORT,
-            secure: MAILER.SECURE,
+            service: "Gmail",
             auth: {
                 user: MAILER.USER,
                 pass: MAILER.PASSWORD
