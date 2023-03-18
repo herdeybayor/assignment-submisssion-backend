@@ -7,9 +7,9 @@ import type { UserDataInput } from "../types/user";
 
 class UserService {
     async create(data: UserDataInput) {
-        if (data.image) {
-            data.image = await this.uploadImage(data.image);
-        }
+        // if (data.image) {
+        //     data.image = await this.uploadImage(data.image);
+        // }
 
         return await new User(data).save();
     }
@@ -63,10 +63,10 @@ class UserService {
             delete data.role, data.email, data.password;
         }
 
-        if (data.image) {
+        /* if (data.image) {
             data.image = await this.uploadImage(data.image);
             await this.deleteUserImage(userId); // Delete the old image
-        }
+        } */
 
         const user = await User.findByIdAndUpdate({ _id: userId }, { $set: data }, { new: true });
         if (!user) throw new CustomError("user does not exist");
@@ -75,7 +75,7 @@ class UserService {
     }
 
     async delete(userId: string) {
-        await this.deleteUserImage(userId);
+        // await this.deleteUserImage(userId);
 
         const user = await User.findByIdAndDelete({ _id: userId });
         if (!user) throw new CustomError("user does not exist");

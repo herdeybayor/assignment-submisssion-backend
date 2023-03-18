@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import express from "express";
+import bodyParser from "body-parser";
 
 import type { Application } from "express";
 
@@ -28,7 +29,13 @@ export default (app: Application) => {
     // app.use(express.static(path.join(__dirname, "..", "..", "public")));
 
     // Express body parser
-    app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+    // app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+    app.use(
+        bodyParser.urlencoded({
+            extended: true,
+            limit: "10mb"
+        })
+    );
 
     // Server Uploads
     app.use("/uploads", express.static(path.join(__dirname, "..", "..", "uploads")));

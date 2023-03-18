@@ -21,7 +21,7 @@ const limits = {
     fileSize: 5 * 1024 * 1024
 };
 
-const fileFilter = (req: any, file: any, cb: any) => {
+/* const fileFilter = (req: any, file: any, cb: any) => {
     //Accepted file types
     const mimeTypes = ["image/jpeg", "image/png"];
 
@@ -31,6 +31,6 @@ const fileFilter = (req: any, file: any, cb: any) => {
     } else {
         cb(new CustomError("Invalid file type", 400), false);
     }
-};
+}; */
 
-export default multer({ storage, limits, fileFilter });
+export default multer({ storage, limits });

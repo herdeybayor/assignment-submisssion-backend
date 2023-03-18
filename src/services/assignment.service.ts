@@ -21,7 +21,7 @@ class AssignmentService {
         const user = await User.findOne({ _id: userId });
         if (!user) throw new CustomError("user does not exist");
 
-        if (data.attachment) data.attachment = await this.uploadAttachment(data.attachment);
+        // if (data.attachment) data.attachment = await this.uploadAttachment(data.attachment);
 
         const assignment = await new Assignment({ ...data, department: department._id, createdBy: user._id }).save();
 
@@ -53,10 +53,10 @@ class AssignmentService {
 
         if (access === "user" && assignment.createdBy._id.toString() !== userId) throw new CustomError("unauthorized");
 
-        if (data.attachment) {
-            await this.deleteAttachment(assignmentId);
-            data.attachment = await this.uploadAttachment(data.attachment);
-        }
+        // if (data.attachment) {
+        //     await this.deleteAttachment(assignmentId);
+        //     data.attachment = await this.uploadAttachment(data.attachment);
+        // }
 
         const department = await Department.findOne({ _id: data.department });
         if (!department) throw new CustomError("department does not exist");
@@ -70,7 +70,7 @@ class AssignmentService {
 
         if (access === "user" && assignment.createdBy.toString() !== userId) throw new CustomError("unauthorized");
 
-        await this.deleteAttachment(assignmentId);
+        // await this.deleteAttachment(assignmentId);
 
         return await Assignment.findOneAndDelete({ _id: assignmentId });
     }
