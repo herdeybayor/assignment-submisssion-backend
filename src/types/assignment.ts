@@ -8,3 +8,11 @@ export type AssignmentDataInput = {
     level: Level;
     department: string;
 };
+
+export type GetAssignmentsInput = {
+    limit?: number;
+    next?: string;
+    level?: Level;
+    department?: string;
+    createdBy?: string;
+};

@@ -4,7 +4,7 @@ import CustomError from "../utils/custom-error";
 import User from "../models/user.model";
 import Department from "../models/department.model";
 
-import type { AssignmentDataInput } from "../types/assignment";
+import type { AssignmentDataInput, GetAssignmentsInput } from "../types/assignment";
 import type { UploadApiResponse } from "cloudinary";
 
 class AssignmentService {
@@ -28,9 +28,37 @@ class AssignmentService {
         return assignment;
     }
 
-    async getAll() {
-        const assignments = await Assignment.find();
-        return assignments;
+    async getAll(query: GetAssignmentsInput) {
+        const { limit = 10, next, level, department, createdBy } = query;
+
+        const filter: any = {};
+
+        if (level) filter.level = level;
+        if (department) filter.department = department;
+        if (createdBy) filter.createdBy = createdBy;
+
+        if (next) {
+            const [nextId, nextCreatedAt] = next.split("_");
+            filter.$or = [{ createdAt: { $gt: nextCreatedAt } }, { createdAt: nextCreatedAt, _id: { $gt: nextId } }];
+        }
+
+        const total = await Assignment.countDocuments(filter);
+
+        const assignments = await Assignment.find(filter).limit(limit).sort({ createdAt: -1 });
+
+        const hasNext = assignments.length > limit;
+        if (hasNext) assignments.pop(); // Remove the extra user from the array
+
+        const nextCursor = hasNext ? `${assignments[assignments.length - 1]._id}_${assignments[assignments.length - 1].createdAt.getTime()}` : null;
+
+        return {
+            assignments,
+            pagination: {
+                total,
+                hasNext,
+                next: nextCursor
+            }
+        };
     }
 
     async getOne(assignmentId: string) {
@@ -49,8 +77,6 @@ class AssignmentService {
 
         const assignment = await this.getOne(assignmentId);
 
-        console.log(assignment.createdBy._id.toString() as string, userId);
-
         if (access === "user" && assignment.createdBy._id.toString() !== userId) throw new CustomError("unauthorized");
 
         // if (data.attachment) {
@@ -68,7 +94,7 @@ class AssignmentService {
     async delete(userId: string, assignmentId: string, access = "user") {
         const assignment = await this.getOne(assignmentId);
 
-        if (access === "user" && assignment.createdBy.toString() !== userId) throw new CustomError("unauthorized");
+        if (access === "user" && assignment.createdBy._id.toString() !== userId) throw new CustomError("unauthorized");
 
         // await this.deleteAttachment(assignmentId);
 

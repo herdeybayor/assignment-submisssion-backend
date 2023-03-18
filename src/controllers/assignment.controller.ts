@@ -10,7 +10,7 @@ class AssignmentController {
     }
 
     async getAll(req: Request, res: Response) {
-        const assignments = await AssignmentService.getAll();
+        const assignments = await AssignmentService.getAll(req.query);
         return res.status(200).send(response("all assignments", assignments));
     }
 
