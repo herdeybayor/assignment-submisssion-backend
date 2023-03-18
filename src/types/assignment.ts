@@ -7,6 +7,4 @@ export type AssignmentDataInput = {
     dueDate: Date;
     level: Level;
     department: string;
-    submissions?: string[];
-    createdBy: string;
 };

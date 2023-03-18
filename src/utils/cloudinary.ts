@@ -2,12 +2,14 @@ import cloudinary from "cloudinary";
 import streamifier from "streamifier";
 
 import CustomError from "./custom-error";
-import { CLOUDINARY_URL, APP_NAME } from "../config";
+import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, APP_NAME } from "../config";
 
 class CloudinaryUtil {
     constructor() {
         cloudinary.v2.config({
-            cloudinary_url: CLOUDINARY_URL
+            cloud_name: CLOUDINARY_CLOUD_NAME,
+            api_key: CLOUDINARY_API_KEY,
+            api_secret: CLOUDINARY_API_SECRET
         });
     }
 
@@ -31,6 +33,7 @@ class CloudinaryUtil {
         return new Promise((resolve, reject) => {
             cloudinary.v2.uploader.upload(base64, { folder: `${APP_NAME}/${folder}` }, (error, result) => {
                 if (result) {
+                    console.log(result);
                     resolve(result);
                 } else {
                     reject(new CustomError((error && error.message) || "an error uploading the file"));

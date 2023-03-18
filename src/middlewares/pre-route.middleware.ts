@@ -23,12 +23,12 @@ export default (app: Application) => {
     app.use(morgan("common"));
 
     // Tell express to recognize the incoming Request Object as a JSON Object
-    app.use(express.json());
+    app.use(express.json({ limit: "10mb" }));
 
     // app.use(express.static(path.join(__dirname, "..", "..", "public")));
 
     // Express body parser
-    app.use(express.urlencoded({ extended: true }));
+    app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
     // Server Uploads
     app.use("/uploads", express.static(path.join(__dirname, "..", "..", "uploads")));
