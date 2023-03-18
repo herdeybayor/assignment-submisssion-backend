@@ -25,13 +25,13 @@ class AuthService {
 
             const userWithMatric = await User.findOne({ matric: data.matric });
             if (userWithMatric) throw new CustomError("matric already exists");
+
+            const department = await Department.findOne({ _id: data.departmentId });
+            if (!department) throw new CustomError("department does not exist");
         }
 
         let user = await User.findOne({ email: data.email });
         if (user) throw new CustomError("email already exists");
-
-        const department = await Department.findOne({ _id: data.departmentId });
-        if (!department) throw new CustomError("department does not exist");
 
         if (data.registerAs === "student") {
             user = await new User({
@@ -166,7 +166,6 @@ class AuthService {
         const { userId, verifyToken } = data;
 
         const user = await User.findOne({ _id: userId });
-        console.log(user);
         if (!user) throw new CustomError("User does not exist");
         if (user.isVerified) throw new CustomError("email is already verified");
 
