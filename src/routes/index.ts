@@ -28,7 +28,7 @@ router.use("/submissions", SubmissionRoute);
 router.use("/results", ResultRoute);
 
 router.get("/", (req: Request, res: Response) => {
-    return res.status(200).json({ message: "Hello world from node-typescript-express-starter! :)" });
+    return res.status(200).json({ message: "Hello world from OASM! :)" });
 });
 
 export default router;
