@@ -6,13 +6,13 @@ export type AssignmentDataInput = {
     attachment: string;
     dueDate: Date;
     level: Level;
-    department: string;
+    departments: string[];
 };
 
 export type GetAssignmentsInput = {
     limit?: number;
     next?: string;
     level?: Level;
-    department?: string;
+    departments?: string[];
     createdBy?: string;
 };

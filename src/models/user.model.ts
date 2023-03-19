@@ -14,6 +14,7 @@ export interface IUser extends mongoose.Document {
     matric: number;
     level: string;
     department: mongoose.Schema.Types.ObjectId;
+    submissions: mongoose.Schema.Types.ObjectId[];
     isVerified: boolean;
     isActive: boolean;
     createdAt: Date;
@@ -60,6 +61,12 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "department"
         },
+        submissions: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "submission"
+            }
+        ],
         isActive: {
             type: Boolean,
             required: true,
@@ -85,9 +92,9 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-userSchema.pre(/^save|^find/, function (next) {
-    this.populate("department");
-    next();
-});
+// userSchema.pre(/^save|^find/, function (next) {
+//     this.populate("department");
+//     next();
+// });
 
 export default mongoose.model<IUser>("user", userSchema);
