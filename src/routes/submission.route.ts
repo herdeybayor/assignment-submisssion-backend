@@ -12,6 +12,8 @@ router.post("/", auth(ROLE.STUDENT), upload.single("attachment"), SubmissionCont
 
 router.get("/", auth(ROLE.LECTURER), SubmissionController.getAll);
 
+router.get("/me", auth(ROLE.USER), SubmissionController.getMe);
+
 router.get("/:submissionId", auth(ROLE.LECTURER), SubmissionController.getOne);
 
 router.put("/:submissionId", auth(ROLE.STUDENT), upload.single("attachment"), SubmissionController.update);
