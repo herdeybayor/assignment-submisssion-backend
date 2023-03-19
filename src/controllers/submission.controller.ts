@@ -14,6 +14,11 @@ class SubmissionController {
         return res.status(200).send(response("all submissions", submissions));
     }
 
+    async getMe(req: Request, res: Response) {
+        const submissions = await SubmissionService.getAll({ ...req.query, user: req.$user.id });
+        return res.status(200).send(response("my submissions", submissions));
+    }
+
     async getOne(req: Request, res: Response) {
         const { submissionId } = req.params;
         const submission = await SubmissionService.getOne(submissionId);
