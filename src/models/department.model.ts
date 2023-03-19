@@ -9,6 +9,7 @@ export interface IDepartment extends mongoose.Document {
 const departmentSchema: mongoose.Schema = new mongoose.Schema(
     {
         name: {
+            unique: true,
             type: String,
             required: true,
             trim: true
