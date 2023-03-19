@@ -52,8 +52,10 @@ class AuthService {
             }).save();
         }
 
-        // Request email verification
-        await this.requestEmailVerification(user.email);
+        if (data.registerAs === "student") {
+            // Request email verification
+            await this.requestEmailVerification(user.email);
+        }
 
         const authTokens = await this.generateAuthTokens({ userId: user.id, role: user.role });
 
