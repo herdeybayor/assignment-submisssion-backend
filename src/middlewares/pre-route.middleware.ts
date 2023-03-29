@@ -15,13 +15,7 @@ export default (app: Application) => {
     });
 
     // enable CORS
-    app.use(
-        cors({
-            credentials: true,
-            exposedHeaders: ["set-cookie"],
-            origin: ["http://localhost:3000", "https://oasm-frontend.vercel.app"]
-        })
-    );
+    app.use(cors());
 
     // Secure the app by setting various HTTP headers off.
     app.use(helmet({ contentSecurityPolicy: false }));

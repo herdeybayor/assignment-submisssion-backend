@@ -1,6 +1,5 @@
 export const PORT = process.env.PORT || 4000;
 export const BCRYPT_SALT = process.env.BCRYPT_SALT || 10;
-export const NODE_ENV = process.env.NODE_ENV || "development";
 export const APP_NAME = "oasm";
 export const CLOUDINARY_URL = process.env.CLOUDINARY_URL || "";
 export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME || "";
