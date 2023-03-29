@@ -9,7 +9,7 @@ const router = Router();
 
 router.post("/", auth(ROLE.ADMIN), DepartmentController.create);
 
-router.get("/", auth(ROLE.USER), DepartmentController.getAll);
+router.get("/", DepartmentController.getAll);
 
 router.get("/:departmentId", auth(ROLE.ADMIN), DepartmentController.getOne);
 
