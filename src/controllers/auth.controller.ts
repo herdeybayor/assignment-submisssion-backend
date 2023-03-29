@@ -6,11 +6,11 @@ import { NODE_ENV } from "../config";
 import ms from "ms";
 
 const BASE_COOKIE_OPTIONS = {
-    path: "/",
-    // httpOnly: true,
-    secure: NODE_ENV !== "development",
-    sameSite: NODE_ENV !== "development" ? "none" : false,
-    domain: NODE_ENV !== "development" ? "oasm-frontend.vercel.app" : "localhost"
+    // path: "/",
+    httpOnly: true
+    // secure: NODE_ENV !== "development",
+    // sameSite: NODE_ENV !== "development" ? "none" : false,
+    // domain: NODE_ENV !== "development" ? "oasm-frontend.vercel.app" : "localhost"
 } as CookieOptions;
 
 const ACCESS_TOKEN_MAX_AGE = ms("1h");
