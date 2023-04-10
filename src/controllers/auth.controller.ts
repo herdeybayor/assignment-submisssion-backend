@@ -7,9 +7,9 @@ import ms from "ms";
 
 const BASE_COOKIE_OPTIONS = {
     path: "/",
-    httpOnly: true,
-    secure: true,
-    sameSite: NODE_ENV !== "development" ? "none" : false,
+    // httpOnly: true,
+    secure: NODE_ENV !== "development",
+    sameSite: NODE_ENV !== "development" ? "none" : "lax",
     domain: NODE_ENV !== "development" ? "oasm-frontend.vercel.app" : "localhost"
 } as CookieOptions;
 
