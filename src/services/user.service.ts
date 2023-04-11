@@ -15,11 +15,7 @@ class UserService {
     }
 
     async getAll(pagination: PaginationInput) {
-        /* Note:
-         * - if sorting in ascending order (1) then use $gt
-         * - if sorting in descending order (-1) then use $lt
-         */
-        const { limit = 5, next } = pagination;
+        const { limit, next } = pagination;
         let query = {};
 
         const total = await User.countDocuments(query);
@@ -32,11 +28,15 @@ class UserService {
             };
         }
 
-        const users = await User.find(query, { password: 0, __v: 0 })
-            .sort({ createdAt: 1, _id: 1 })
-            .limit(Number(limit) + 1);
+        let usersQuery = User.find(query, { password: 0, __v: 0 }).sort({ createdAt: 1, _id: 1 });
 
-        const hasNext = users.length > limit;
+        if (limit) {
+            usersQuery = usersQuery.limit(Number(limit) + 1);
+        }
+
+        const users = await usersQuery;
+
+        const hasNext = limit ? users.length > limit : false;
         if (hasNext) users.pop(); // Remove the extra user from the array
 
         const nextCursor = hasNext ? `${users[users.length - 1]._id}_${users[users.length - 1].createdAt.getTime()}` : null;
