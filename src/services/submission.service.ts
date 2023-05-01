@@ -30,7 +30,7 @@ class SubmissionService {
         await user.save();
 
         // update assignment submissions
-        assignment.submissions.push(submission._id);
+        assignment.submissions.push(user._id);
         await assignment.save();
 
         return submission;
