@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Level } from "../types/user";
+import { IDepartment } from "./department.model";
 import { IUser } from "./user.model";
 
 export interface IAssignment extends mongoose.Document {
@@ -8,8 +9,9 @@ export interface IAssignment extends mongoose.Document {
     attachment: string;
     dueDate: Date;
     level: Level;
-    departments: mongoose.Schema.Types.ObjectId[];
+    departments: IDepartment[];
     submissions: mongoose.Schema.Types.ObjectId[];
+    isReleased: boolean;
     createdBy: IUser;
     createdAt: Date;
     updatedAt: Date;
@@ -49,6 +51,10 @@ const assignmentSchema: mongoose.Schema = new mongoose.Schema(
             type: [mongoose.Schema.Types.ObjectId],
             ref: "submission"
         },
+        isReleased: {
+            type: Boolean,
+            default: false
+        },
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
@@ -61,7 +67,7 @@ const assignmentSchema: mongoose.Schema = new mongoose.Schema(
 );
 
 assignmentSchema.pre(/^save|^find/, function (next) {
-    this.populate("createdBy");
+    this.populate("createdBy departments");
     next();
 });
 

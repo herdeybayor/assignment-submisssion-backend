@@ -15,11 +15,12 @@ const submissionSchema: mongoose.Schema = new mongoose.Schema(
     {
         answer: {
             type: String,
-            required: true,
+            // required: true,
             trim: true
         },
         attachment: {
-            type: String
+            type: String,
+            required: true
         },
         assignment: {
             type: mongoose.Schema.Types.ObjectId,

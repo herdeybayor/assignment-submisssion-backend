@@ -17,6 +17,9 @@ class ResultService {
 
         const result = await new Result({ ...data, assignment: assignment._id, user: user._id }).save();
 
+        assignment.isReleased = true;
+        await assignment.save();
+
         return result;
     }
 

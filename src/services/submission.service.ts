@@ -7,7 +7,7 @@ import type { SubmissionDataInput, GetSubmissionsInput } from "../types/submissi
 
 class SubmissionService {
     async create(userId: string, data: SubmissionDataInput) {
-        if (!data.answer) throw new CustomError("answer is required");
+        // if (!data.answer) throw new CustomError("answer is required");
         if (!data.assignment) throw new CustomError("assignment is required");
 
         const assignment = await Assignment.findOne({ _id: data.assignment });
@@ -20,18 +20,18 @@ class SubmissionService {
 
         if (assignment.level !== user.level) throw new CustomError("you are not allowed to submit this assignment");
 
-        if (!assignment.departments.includes(user.department)) throw new CustomError("you are not allowed to submit this assignment");
+        if (!assignment.departments.map((i) => i._id.toString()).includes(user.department.toString())) throw new CustomError("you are not allowed to submit this assignment");
         if (new Date() > assignment.dueDate) throw new CustomError("assignment is already due");
 
+        const submission = await new Submission({ ...data, assignment: assignment._id, user: user._id }).save();
+        console.log(submission);
         // update user submissions
-        user.submissions.push(assignment._id);
+        user.submissions.push(submission._id);
         await user.save();
 
         // update assignment submissions
-        assignment.submissions.push(user._id);
+        assignment.submissions.push(submission._id);
         await assignment.save();
-
-        const submission = await new Submission({ ...data, assignment: assignment._id, user: user._id }).save();
 
         return submission;
     }
